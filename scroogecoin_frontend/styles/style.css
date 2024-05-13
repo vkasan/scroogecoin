@@ -1,0 +1,112 @@
+body{
+    display: grid;
+    grid-template-columns: 425px 1fr;
+    height: 100vh;
+    margin: 0;
+    padding: 0; 
+}
+
+header{
+    background-color: #F5F5F5;
+}
+
+.exit img{
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+nav ul{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    list-style: none;  
+}
+
+nav ul li {
+    width: 300px; 
+    height: 50px;
+    margin: 20px 0px;
+    padding: 10px 20px; /* Поля вокруг текста кнопок */
+    background-color: #F5F5F5; 
+    border-radius: 45px; 
+    border: 3px solid #000;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    text-transform: uppercase; /* Заглавные буквы */
+    line-height: 50px; /* Выравнивание текста по вертикали */
+}
+
+nav ul li a {
+    color: #000;
+    text-decoration: none;
+}
+
+nav ul li a:active {
+    background-color: #F3A73A; /* Цвет фона при нажатии на ссылку */
+    color: #FFFFFF; /* Цвет текста при нажатии на ссылку */
+}
+
+nav ul li:active {
+    background-color: #F3A73A; /* Цвет фона при нажатии на область вокруг ссылки */
+}
+
+main{
+    background-color: #FFEDD3;
+}
+
+.container {
+    display: flex; /* Размещаем элементы внутри контейнера в виде flexbox */
+    justify-content: space-between; /* Размещаем элементы так, чтобы они были равномерно распределены по контейнеру */
+    align-items: center; /* Выравниваем элементы по вертикали по центру */
+    margin: 80px 80px; /* Центрируем контейнер по горизонтали */
+}
+
+.photo_user {
+    align-self: flex-start; /* Размещаем .photo_user вверху */
+}
+
+.info_user {
+    width: calc(90% - 150px); /* Ширина блока с информацией о пользователе (оставляем 90% для всего контейнера минус ширина фото пользователя) */
+    /* Здесь можете добавить стили для блока с информацией о пользователе */
+    margin-top: 50px;
+}
+
+input {
+    width: 70%; /* Занимаем всю доступную ширину */
+    height: 50px;
+    margin-bottom: 60px; 
+    padding: 10px;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 10px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
+
+.save_button{
+    width: 130px;
+    height: 40px;
+    background-color: #B9E937;
+    border-radius: 10px;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.save_button:hover {
+    background-color: #406661; /* Изменение цвета фона при наведении */
+}
+
+.save_button:active {
+    background-color: #B9E937; /* Изменение цвета фона при нажатии */
+}
+
