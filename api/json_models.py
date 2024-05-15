@@ -31,7 +31,7 @@ class TransactionJson(BaseModel):
     amount: float
     date: str
     description: str
-    category_id: int
+    category_id: int = 0
 
     class Config:
         from_attributes = True
@@ -54,7 +54,7 @@ class CategoryCreateRequest(BaseModel):
 
 
 class TransactionCreateRequest(BaseModel):
-    category_id: int
+    category_id: int = 0
     amount: float
     date: str
     description: str

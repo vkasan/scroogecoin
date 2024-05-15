@@ -12,9 +12,9 @@ from fastapi.security import HTTPBasicCredentials, HTTPBasic
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from database import User, get_db, Category
+from database import User, get_db, Category, Transaction
 from json_models import SuccessResponse, RegisterRequest, UserInfo, UserUpdateProfileRequest, CategoriesResponse, \
-    CategoryJson, UsersResponse, CategoryCreateRequest
+    CategoryJson, UsersResponse, CategoryCreateRequest, IdJson
 
 logger = logging.getLogger(__name__)
 
@@ -152,6 +152,21 @@ async def category_create(req: CategoryCreateRequest, ctx: Context = Depends(aut
     ctx.user.categories.append(c)
     ctx.db.commit()
     logger.info(f"category {c.id} created")
+    return SuccessResponse()
+
+
+@app.post("/category_delete", response_model=SuccessResponse)
+async def category_delete(req: IdJson, ctx: Context = Depends(auth)):
+    c = ctx.db.query(Category).get(req.id)
+    check(c is not None, "category not found")
+    check(c.owner_id == ctx.user.id, "user is not owner")
+    transactions = ctx.db.query(Transaction).filter(Transaction.category_id == c.id).all()
+    for t in transactions:
+        logger.info("resetting transaction " + str(t.id))
+        t.category_id = 0
+    ctx.db.delete(c)
+    ctx.db.commit()
+    logger.info(f"category {req.id} deleted")
     return SuccessResponse()
 
 
