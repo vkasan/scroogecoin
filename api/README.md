@@ -40,6 +40,8 @@ python main.py
 
 `/load_users` - получение списка пользователей
 
+`/load_transactions` - получение списка всех транзакций текущего пользователя
+
 `/category_create` - создание категории
 
 `/category_delete` - удаление категории по id
