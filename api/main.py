@@ -14,7 +14,7 @@ from sqlalchemy.exc import IntegrityError
 
 from database import User, get_db, Category, Transaction
 from json_models import SuccessResponse, RegisterRequest, UserInfo, UserUpdateProfileRequest, CategoriesResponse, \
-    CategoryJson, UsersResponse, CategoryCreateRequest, IdJson
+    CategoryJson, UsersResponse, CategoryCreateRequest, IdJson, TransactionCreateRequest
 
 logger = logging.getLogger(__name__)
 
@@ -167,6 +167,32 @@ async def category_delete(req: IdJson, ctx: Context = Depends(auth)):
     ctx.db.delete(c)
     ctx.db.commit()
     logger.info(f"category {req.id} deleted")
+    return SuccessResponse()
+
+
+@app.post("/transaction_create", response_model=SuccessResponse)
+async def transaction_create(req: TransactionCreateRequest, ctx: Context = Depends(auth)):
+    if req.category_id != 0:
+        c = ctx.db.query(Category).get(req.category_id)
+        check(c.owner_id == ctx.user.id, "user is not owner")
+    check(req.amount > 0, "amount is invalid")
+    t = Transaction()
+    t.category_id = req.category_id
+    t.amount = req.amount
+    t.date = req.date
+    t.description = req.description
+    ctx.db.commit()
+    logger.info(f"transaction {t.id} created")
+    return SuccessResponse()
+
+
+@app.post("/transaction_delete", response_model=SuccessResponse)
+async def transaction_delete(req: IdJson, ctx: Context = Depends(auth)):
+    t = ctx.db.query(Transaction).get(req.id)
+    check(t is not None, "transaction not found")
+    ctx.db.delete(t)
+    ctx.db.commit()
+    logger.info(f"transaction {req.id} deleted")
     return SuccessResponse()
 
 
