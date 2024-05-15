@@ -14,7 +14,7 @@ from sqlalchemy.exc import IntegrityError
 
 from database import User, get_db, Category, Transaction
 from json_models import SuccessResponse, RegisterRequest, UserInfo, UserUpdateProfileRequest, CategoriesResponse, \
-    CategoryJson, UsersResponse, CategoryCreateRequest, IdJson, TransactionCreateRequest
+    CategoryJson, UsersResponse, CategoryCreateRequest, IdJson, TransactionCreateRequest, TransactionsResponse
 
 logger = logging.getLogger(__name__)
 
@@ -145,6 +145,17 @@ async def load_users(ctx: Context = Depends(auth)):
     return resp
 
 
+@app.post("/load_transactions", response_model=TransactionsResponse)
+async def load_transactions(ctx: Context = Depends(auth)):
+    resp = TransactionsResponse()
+    categories = ctx.db.query(Category).filter(Category.owner_id == ctx.user.id).all()
+    categories_id = list(map(lambda c: c.id, categories))
+    transactions = ctx.db.query(Transaction).filter(Transaction.category_id.in_(categories_id)).all()
+    for t in transactions:
+        resp.transactions.append(Transaction.from_orm(t))
+    return resp
+
+
 @app.post("/category_create", response_model=SuccessResponse)
 async def category_create(req: CategoryCreateRequest, ctx: Context = Depends(auth)):
     c = Category()
@@ -175,7 +186,8 @@ async def transaction_create(req: TransactionCreateRequest, ctx: Context = Depen
     if req.category_id != 0:
         c = ctx.db.query(Category).get(req.category_id)
         check(c.owner_id == ctx.user.id, "user is not owner")
-    check(req.amount > 0, "amount is invalid")
+        check(req.amount < 0, "income should not have category")
+    check(req.amount == 0, "amount is invalid")
     t = Transaction()
     t.category_id = req.category_id
     t.amount = req.amount
