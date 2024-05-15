@@ -52,6 +52,7 @@ class UsersResponse(BaseModel):
 
 class CategoryCreateRequest(BaseModel):
     name: str
+    icon: str
 
 
 class TransactionCreateRequest(BaseModel):
