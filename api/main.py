@@ -188,7 +188,7 @@ async def transaction_create(req: TransactionCreateRequest, ctx: Context = Depen
         c = ctx.db.query(Category).get(req.category_id)
         check(c.owner_id == ctx.user.id, "user is not owner")
         check(req.amount < 0, "income should not have category")
-    check(req.amount == 0, "amount is invalid")
+    check(req.amount != 0, "amount is invalid")
     t = Transaction()
     t.category_id = req.category_id
     t.amount = req.amount
