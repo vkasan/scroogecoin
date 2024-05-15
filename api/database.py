@@ -31,6 +31,7 @@ class Category(Base):
     __tablename__ = "categories"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100))
+    icon = Column(String(32))
     owner_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", backref="categories")
 

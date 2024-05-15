@@ -160,6 +160,7 @@ async def load_transactions(ctx: Context = Depends(auth)):
 async def category_create(req: CategoryCreateRequest, ctx: Context = Depends(auth)):
     c = Category()
     c.name = req.name
+    c.icon = req.icon
     ctx.user.categories.append(c)
     ctx.db.commit()
     logger.info(f"category {c.id} created")
