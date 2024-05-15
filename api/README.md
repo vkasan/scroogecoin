@@ -1,5 +1,11 @@
 # Scroogecoin API
 
+## 0. Используемые технологии
+- FastAPI
+- SQLAlchemy
+- SQLite
+- pydantic
+
 ## 1. Установка зависимостей
 
 Разработка производилась под Python 3.11. Скачать: https://www.python.org/downloads/windows/
