@@ -20,6 +20,7 @@ class UserInfo(BaseModel):
 class CategoryJson(BaseModel):
     id: int = 0
     name: str
+    icon: str
     owner_id: int
 
     class Config:
