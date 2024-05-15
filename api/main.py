@@ -12,8 +12,9 @@ from fastapi.security import HTTPBasicCredentials, HTTPBasic
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from database import User, get_db
-from json_models import SuccessResponse, RegisterRequest
+from database import User, get_db, Category
+from json_models import SuccessResponse, RegisterRequest, UserInfo, UserUpdateProfileRequest, CategoriesResponse, \
+    CategoryJson, UsersResponse, CategoryCreateRequest
 
 logger = logging.getLogger(__name__)
 
@@ -108,6 +109,49 @@ async def user_register(req: RegisterRequest, db: Session = Depends(get_db)):
     except IntegrityError:
         raise HTTPException(status_code=409, detail="already registered")
 
+    return SuccessResponse()
+
+
+@app.post("/user_load_profile", response_model=UserInfo)
+async def user_load_profile(ctx: Context = Depends(auth)):
+    u = ctx.user
+    return UserInfo(id=u.id, name=u.user_name, email=u.email)
+
+
+@app.post("/user_update_profile", response_model=SuccessResponse)
+async def user_update_profile(req: UserUpdateProfileRequest, ctx: Context = Depends(auth)):
+    u = ctx.user
+    u.user_name = req.name
+    ctx.db.commit()
+    return SuccessResponse()
+
+
+@app.post("/load_categories", response_model=CategoriesResponse)
+async def load_categories(ctx: Context = Depends(auth)):
+    resp = CategoriesResponse()
+    categories = ctx.db.query(Category).filter(Category.owner_id == ctx.user.id).all()
+    for c in categories:
+        resp.categories.append(CategoryJson.from_orm(c))
+    return resp
+
+
+@app.post("/load_users", response_model=UsersResponse)
+async def load_users(ctx: Context = Depends(auth)):
+    resp = UsersResponse()
+    users = ctx.db.query(User).all()
+    for u in users:
+        item = UserInfo(id=u.id, email=u.email, name=u.user_name)
+        resp.users.append(item)
+    return resp
+
+
+@app.post("/category_create", response_model=SuccessResponse)
+async def category_create(req: CategoryCreateRequest, ctx: Context = Depends(auth)):
+    c = Category()
+    c.name = req.name
+    ctx.user.categories.append(c)
+    ctx.db.commit()
+    logger.info(f"category {c.id} created")
     return SuccessResponse()
 
 
