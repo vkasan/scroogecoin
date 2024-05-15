@@ -99,9 +99,9 @@ async def user_register(req: RegisterRequest, db: Session = Depends(get_db)):
     check(pwd_valid(req.pwd), "invalid password")
     try:
         new_user = User()
+        new_user.user_name = req.name
         new_user.email = req.email
         new_user.pwd_hash = pwd_hash(req.pwd)
-        new_user.user_name = ''
         db.add(new_user)
         db.commit()
         logger.info(f"user_register {req.email} success")
