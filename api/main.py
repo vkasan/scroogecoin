@@ -105,6 +105,11 @@ async def user_register(req: RegisterRequest, db: Session = Depends(get_db)):
         new_user.email = req.email
         new_user.pwd_hash = pwd_hash(req.pwd)
         db.add(new_user)
+        c = Category()
+        c.id = 0
+        c.name = "default"
+        c.icon = "default"
+        new_user.categories.append(c)
         db.commit()
         logger.info(f"user_register {req.email} success")
     except IntegrityError:
@@ -172,6 +177,7 @@ async def category_create(req: CategoryCreateRequest, ctx: Context = Depends(aut
 async def category_delete(req: IdJson, ctx: Context = Depends(auth)):
     c = ctx.db.query(Category).get(req.id)
     check(c is not None, "category not found")
+    check(req.id != 0, "cannot delete default category")
     check(c.owner_id == ctx.user.id, "user is not owner")
     transactions = ctx.db.query(Transaction).filter(Transaction.category_id == c.id).all()
     for t in transactions:
@@ -189,12 +195,15 @@ async def transaction_create(req: TransactionCreateRequest, ctx: Context = Depen
         c = ctx.db.query(Category).get(req.category_id)
         check(c.owner_id == ctx.user.id, "user is not owner")
         check(req.amount < 0, "income should not have category")
+    else:
+        c = ctx.db.query(Category).get(0)
     check(req.amount != 0, "amount is invalid")
     t = Transaction()
     t.category_id = req.category_id
     t.amount = req.amount
     t.date = req.date
     t.description = req.description
+    c.transactions.append(t)
     ctx.db.commit()
     logger.info(f"transaction {t.id} created")
     return SuccessResponse()
