@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCROOGECOIN | Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="dashboard__nav">
+      <div class="dashboard__nav-buttons">
+        <a class="dashboard__home-button"></a>
+        <button class="dashboard__logout-button"></button>
+      </div>
+      <ul class="dashboard__nav-list">
+        <li class="dashboard__nav-item">
+          <a href="dashboard-budget.html" class="dashboard__nav-link">БЮДЖЕТ</a>
+        </li>
+        <li class="dashboard__nav-item">
+          <a href="dashboard-category.html" class="dashboard__nav-link dashboard__nav-link--active">КАТЕГОРИЯ</a>
+        </li>
+        <li class="dashboard__nav-item">
+          <a href="#" class="dashboard__nav-link">ДИАГРАММА</a>
+        </li>
+        <li class="dashboard__nav-item">
+          <a href="dashboard-profile.html" class="dashboard__nav-link">ПЕРСОНАЛЬНЫЕ ДАННЫЕ</a>
+        </li>
+      </ul>
+    </div>
+    <div class="dashboard__content">
+      <div class="dashboard__wrapper">
+        <div class="dashboard-category">
+          <div class="dashboard-category__wrapper">
+            <ul class="dashboard-category__list category-list">
+              <li class="category-list__item" title="Продукты">
+                <img class="category-list__icon" src="img/category-icons/icon-cart.svg" alt="">
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <img class="category-list__icon" src="img/category-icons/icon-car.svg" alt="">
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <img class="category-list__icon" src="img/category-icons/icon-health.svg" alt="">
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <img class="category-list__icon" src="img/category-icons/icon-clothes.svg" alt="">
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <img class="category-list__icon" src="img/category-icons/icon-fun.svg" alt="">
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <img class="category-list__icon" src="img/category-icons/icon-home.svg" alt="">
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+              </li>
+              <li class="category-list__item" title="Продукты">
+              </li>
+              <li class="category-list__item" title="Продукты">
+              </li>
+              <li class="category-list__item" title="Продукты">
+              </li>
+              <li class="category-list__item" title="Продукты">
+              </li>
+              <li class="category-list__item" title="Продукты">
+              </li>
+            </ul>
+            <a class="dashboard-category__button" href="dashboard-category-modal.html">
+              Добавить категорию
+            </a>
+            <button class="dashboard-category__delete-button">
+              Удалить категорию
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal category-modal">
+      <div class="modal__overlay">
+        <div class="modal__content dashboard-modal__content">
+          <button class="modal__close-button"></button>
+          <form class="dashboard-modal__form">
+            <label for="category-name" class="dashboard-modal__text-field">
+              <span class="dashboard-modal__text-field-label">Название</span>
+              <input class="dashboard-modal__text-field-input" type="text" name="category-name" id="category-name" placeholder="Введите сумму">
+            </label>
+
+            <ul class="category-modal__icons-list category-list">
+              <li class="category-list__item" title="Продукты">
+                <span class="category-list__icon"></span>
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <span class="category-list__icon"></span>
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <span class="category-list__icon"></span>
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <span class="category-list__icon"></span>
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <span class="category-list__icon"></span>
+                <span class="category-list__name">Продукты</span>
+              </li>
+              <li class="category-list__item" title="Продукты">
+                <span class="category-list__icon"></span>
+                <span class="category-list__name">Продукты</span>
+              </li>
+            </ul>
+            <button class="dashboard-modal__submit-button" type="submit">Добавить категорию</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
