@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCROOGECOIN</title>
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <header class="page-header">
+    <div class="page-header__wrapper container">
+      <img class="page-header__logo" src="img/logo-icon.svg" alt="Логотип scroogecoin">
+      <ul class="site-nav">
+        <li class="site-nav__item">
+          <a href="#" class="site-nav__link">Главная</a>
+        </li>
+        <li class="site-nav__item">
+          <a href="#functions-section" class="site-nav__link">Функции</a>
+        </li>
+      </ul>
+      <div class="user-nav">
+        <!-- <button class="user-nav__button" type="button">Войти</button>
+        <button class="user-nav__button" type="button">Регистрация</button> -->
+        <a class="user-nav__profile" href="/dashboard.html"></a>
+      </div>
+    </div>
+  </header>
+  <main class="page-content">
+    <div class="container">
+      <div class="promo">
+        <img class="promo__logo" src="img/logo-scroogecoin-colored.svg" alt="">
+        <p class="promo__slogan">Контролируйте каждую копейку с нами!</p>
+        <p class="promo__desc"><b>ScroogeCoin</b> - это удобная платформа для ведения личного бюджета,
+          учета доходов и расходов.</p>
+        <p class="promo__desc">Наша цель - помочь вам достичь финансового благополучия
+          с нашими удобными инструментами управления расходами.</p>
+      </div>
+
+      <section class="functions" id="functions-section">
+        <div class="functions__info">
+          <a class="functions__button" href="#">НАЧНИТЕ СЧЕТ</a>
+          <h2 class="functions__title">УПРАВЛЕНИЕ ЛИЧНЫМИ ФИНАНСАМИ</h2>
+          <p class="functions__desc">Планирование бюджета - это важный навык для достижения финансовых целей.</p>
+          <p class="functions__desc">Наш сервис поможет вам отслеживать доходы и расходы, анализировать траты и экономить деньги.</p>
+        </div>
+        <ul class="functions__list">
+          <li class="functions__item">
+            <a class="functions__item-link" href="#">Начать</a>
+            <img class="functions__item-image" src="img/picture-1.png" alt="">
+            <h3 class="functions__item-title">БЮДЖЕТ</h3>
+            <p class="functions__item-desc">Укажите свои ежемесячные доходы, чтобы контролировать ваш бюджет.</p>
+          </li>
+          <li class="functions__item">
+            <a class="functions__item-link" href="#">Начать</a>
+            <img class="functions__item-image" src="img/picture-2.png" alt="">
+            <h3 class="functions__item-title">КАТЕГОРИИ РАСХОДОВ</h3>
+            <p class="functions__item-desc">Категоризируйте затраты, чтобы понять, на что тратятся деньги - еда, развлечения, жилье и т.д.</p>
+          </li>
+          <li class="functions__item">
+            <a class="functions__item-link" href="#">Начать</a>
+            <img class="functions__item-image" src="img/picture-3.png" alt="">
+            <h3 class="functions__item-title">ОТЧЁТЫ</h3>
+            <p class="functions__item-desc">Анализируйте отчеты о доходах
+              и расходах в виде круговой диаграммы, чтобы принимать более разумные финансовые решения
+              и достигать своих целей.</p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  <footer class="page-footer">
+    <div class="container">
+      <img class="page-footer__logo" src="img/logo-scroogecoin.png" alt="">
+      <div class="page-footer__wrapper">
+        <p class="page-footer__copyright">
+          Авторские права защищены, ScroogeCoin 2024
+        </p>
+        <p class="page-footer__develop">
+          Разработано командой <br />
+          ScroogeCoin Team 422-1
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal login-modal">
+    <div class="modal__overlay">
+      <div class="modal__content">
+        <button class="modal__close-button"></button>
+        <h2 class="modal__title">Авторизация</h2>
+        <form class="login-modal__form" action="#">
+          <input class="custom-input login-modal__input" type="email" name="email" id="login-form-email" placeholder="Эл. почта">
+          <input class="custom-input login-modal__input" type="password" name="password" id="login-form-password" placeholder="Пароль">
+          <!-- <p class="login-modal__error">Ошибка: указанного пользователя не существует</p> -->
+          <button class="login-modal__button" type="submit">Войти</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal reg-modal">
+    <div class="modal__overlay">
+      <div class="modal__content">
+        <button class="modal__close-button"></button>
+        <h2 class="modal__title">Регистрация</h2>
+        <form class="reg-modal__form" action="#">
+          <input class="custom-input reg-modal__input" type="text" name="name" id="reg-form-name" placeholder="Имя">
+          <input class="custom-input reg-modal__input" type="email" name="email" id="reg-form-email" placeholder="Эл. почта">
+          <input class="custom-input reg-modal__input" type="password" name="password" id="reg-form-password" placeholder="Пароль">
+          <input class="custom-input reg-modal__input" type="password" name="repeat-password" id="reg-form-repeat-password" placeholder="Повтор пароля">
+          <!-- <p class="reg-modal__error">Ошибка: введённые пароли не совпадают</p> -->
+          <button class="reg-modal__button" type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
