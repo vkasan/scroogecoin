@@ -1,14 +1,23 @@
 import { useState } from "react";
 import LoginModal from "../../components/login-modal/login-modal";
 import RegModal from "../../components/reg-modal/reg-modal";
-
+import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { selectAuthStatus } from "../../store/user-slicer";
 
 const Home = () => {
   const [openedModal, setOpenedModal] = useState(null);
+  const isAuth = useSelector(selectAuthStatus);
 
   const openLoginModal = () => setOpenedModal('login-modal');
   const openRegModal = () => setOpenedModal('reg-modal');
   const closeModal = () => setOpenedModal(null);
+  const handleClickAuthLink = (evt) => {
+    if (!isAuth) {
+      evt.preventDefault();
+      setOpenedModal('login-modal');
+    }
+  }
 
   return (
     <div>
@@ -24,13 +33,18 @@ const Home = () => {
             </li>
           </ul>
           <div className="user-nav">
-            <button className="user-nav__button" type="button" onClick={openLoginModal}>
-              Войти
-            </button>
-            <button className="user-nav__button" type="button" onClick={openRegModal}>
-              Регистрация
-            </button>
-            {/* <a className="user-nav__profile" href="/dashboard.html"></a> */}
+            {isAuth ? (
+              <Link className="user-nav__profile" to="/dashboard"></Link>
+            ) : (
+              <>
+                <button className="user-nav__button" type="button" onClick={openLoginModal}>
+                  Войти
+                </button>
+                <button className="user-nav__button" type="button" onClick={openRegModal}>
+                  Регистрация
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>
