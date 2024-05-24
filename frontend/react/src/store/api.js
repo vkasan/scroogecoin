@@ -138,7 +138,6 @@ export const api = createApi({
 });
 
 export const {
-  useCheckStatusQuery,
   useCheckAuthQuery,
   useRegistrationMutation,
   useLoginMutation,

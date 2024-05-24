@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children, isAuth, isAuthLoading }) => {
     )
   }
 
-  return true
+  return isAuth
     ? children
     : <Navigate to="/" />
 }
