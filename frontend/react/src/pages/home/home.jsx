@@ -69,19 +69,25 @@ const Home = () => {
             </div>
             <ul className="functions__list">
               <li className="functions__item">
-                <a className="functions__item-link" href="#">Начать</a>
+              <Link className="functions__item-link" to="dashboard/budget" onClick={handleClickAuthLink}>
+                  Начать
+                </Link>
                 <img className="functions__item-image" src="img/picture-1.png" alt="" />
                 <h3 className="functions__item-title">БЮДЖЕТ</h3>
                 <p className="functions__item-desc">Укажите свои ежемесячные доходы, чтобы контролировать ваш бюджет.</p>
               </li>
               <li className="functions__item">
-                <a className="functions__item-link" href="#">Начать</a>
+              <Link className="functions__item-link" to="dashboard/category" onClick={handleClickAuthLink}>
+                  Начать
+                </Link>
                 <img className="functions__item-image" src="img/picture-2.png" alt="" />
                 <h3 className="functions__item-title">КАТЕГОРИИ РАСХОДОВ</h3>
                 <p className="functions__item-desc">Категоризируйте затраты, чтобы понять, на что тратятся деньги - еда, развлечения, жилье и т.д.</p>
               </li>
               <li className="functions__item">
-                <a className="functions__item-link" href="#">Начать</a>
+              <Link className="functions__item-link" to="dashboard/budget" onClick={handleClickAuthLink}>
+                  Начать
+                </Link>
                 <img className="functions__item-image" src="img/picture-3.png" alt="" />
                 <h3 className="functions__item-title">ОТЧЁТЫ</h3>
                 <p className="functions__item-desc">Анализируйте отчеты о доходах
