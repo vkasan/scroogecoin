@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DashboardNav from "../../components/dashboard/dashboard-nav/dashboard-nav.jsx";
+import { useGetUserDataQuery, useUpdateUserDataMutation } from "../../store/api.js";
 
 
 const DashboardProfile = () => {
-  const [userName, setUserName] = useState("Иван");
+  const { data: userData } = useGetUserDataQuery();
+  const [userName, setUserName] = useState("");
+  const [updateUserData] = useUpdateUserDataMutation();
+
+  useEffect(() => {
+    if (userData?.name) {
+      setUserName(userData?.name ?? '');
+    }
+  }, [userData?.name]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    updateUserData({ name: userName });
   }
 
   return (

@@ -1,7 +1,29 @@
-
+import CreateExpenseModal from "../../components/dashboard/create-expense-modal/create-expense-modal.jsx";
+import CreateIncomModal from "../../components/dashboard/create-incom-modal/create-incom-modal.jsx";
 import DashboardNav from "../../components/dashboard/dashboard-nav/dashboard-nav.jsx";
+import { useState } from 'react';
+import { useDeleteTransactionMutation, useGetCategoriesQuery, useGetTransactionsQuery } from "../../store/api.js";
+import { categoryIcon } from "../../conts.js";
 
 const DashboardBudget = () => {
+  const [openedModal, setOpenedModal] = useState(null);
+  const { data: categories = {}, isLoading, isSuccess } = useGetCategoriesQuery();
+  const [deleteTransaction] = useDeleteTransactionMutation();
+  const { data } = useGetTransactionsQuery();
+  const closeModal = () => setOpenedModal(null);
+
+  const transactionsList = data?.transactions.map((item) => ({
+    ...item,
+    icon: categories[item.category_id]?.icon ?? categoryIcon['income'],
+    description: item.description || categories[item.category_id]?.name || '',
+    amount: item.amount > 0 ? `+${item.amount}` : item.amount,
+  }))
+
+  const totalAmount = data?.transactions.reduce((sum, item) => sum + item.amount, 0);
+
+  const handleDeleteTransaction = (id) => {
+    deleteTransaction({ id })
+  }
 
   return (
     <div className="dashboard">
@@ -10,45 +32,35 @@ const DashboardBudget = () => {
         <div className="dashboard__wrapper">
           <div className="dashboard-budget">
             <div className="dashboard-budget__wrapper">
-              <p className="dashboard-budget__total-amount">150 000</p>
+              <p className="dashboard-budget__total-amount">{totalAmount}</p>
               <div className="dashboard-budget__controls">
-                <a className="dashboard-budget__controls-button" href="dashboard-budget-incom-modal.html">
+                <button className="dashboard-budget__controls-button"
+                  onClick={() => setOpenedModal('create-income-modal')}>
                   Добавить доход
-                </a>
-                <a className="dashboard-budget__controls-button dashboard-budget__controls-button--orange" href="dashboard-budget-expenses-modal.html">
+                </button>
+                <button className="dashboard-budget__controls-button dashboard-budget__controls-button--orange"
+                  onClick={() => setOpenedModal('create-expense-modal')}>
                   Добавить расходы
-                </a>
+                </button>
               </div>
 
               <div className="dashboard-budget__histoy">
                 <ul className="dashboard-budget__history-list">
-                  <li className="dashboard-budget__history-item">
-                    <span className="dashboard-budget__history-icon"></span>
-                    <p className="dashboard-budget__history__name">
-                      Стипендия
-                    </p>
-                    <p className="dashboard-budget__history-amount">
-                      +5600 P
-                    </p>
-                  </li>
-                  <li className="dashboard-budget__history-item">
-                    <img className="dashboard-budget__history-icon" src="img/category-icons/icon-cart.svg" alt="" />
-                    <p className="dashboard-budget__history__name">
-                      Продукты
-                    </p>
-                    <p className="dashboard-budget__history-amount">
-                      -430 P
-                    </p>
-                  </li>
-                  <li className="dashboard-budget__history-item">
-                    <img className="dashboard-budget__history-icon" src="img/category-icons/icon-fun.svg" alt="" />
-                    <p className="dashboard-budget__history__name">
-                      Развлечения
-                    </p>
-                    <p className="dashboard-budget__history-amount">
-                      -1290 P
-                    </p>
-                  </li>
+                  {transactionsList?.map((item) => (
+                    <li className="dashboard-budget__history-item" key={item.id}>
+                      <img className="dashboard-budget__history-icon" src={item.icon} alt="" />
+                      <p className="dashboard-budget__history__name">
+                        {item.description}
+                      </p>
+                      <p className="dashboard-budget__history-amount">
+                        {item.amount} P
+                      </p>
+                      <button
+                        className="dashboard-budget__history-delete"
+                        onClick={() => handleDeleteTransaction(item.id)}
+                      />
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -56,88 +68,14 @@ const DashboardBudget = () => {
         </div>
       </div>
 
-      <div className="modal dashboard-modal">
-        <div className="modal__overlay">
-          <div className="modal__content dashboard-modal__content">
-            <button className="modal__close-button"></button>
-            <form className="dashboard-modal__form">
-              <label for="amount" className="dashboard-modal__text-field">
-                <span className="dashboard-modal__text-field-label">Сумма</span>
-                <input className="dashboard-modal__text-field-input" type="text" name="amount" id="amount" placeholder="Введите сумму" />
-              </label>
-              <button className="dashboard-modal__submit-button" type="submit">Добавить</button>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div className="modal dashboard-modal expenses-modal">
-        <div className="modal__overlay">
-          <div className="modal__content dashboard-modal__content">
-            <button className="modal__close-button"></button>
-            <form className="dashboard-modal__form">
-              <label for="amount" className="dashboard-modal__text-field">
-                <span className="dashboard-modal__text-field-label">Сумма</span>
-                <input className="dashboard-modal__text-field-input" type="text" name="amount" id="amount" placeholder="Введите сумму" />
-              </label>
-              <div className="expenses-modal__category">
-                <ul className="expenses-modal__category-list category-list">
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                </ul>
-                <ul className="expenses-modal__category-list category-list">
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                  <li className="category-list__item" title="Продукты">
-                    <span className="category-list__icon"></span>
-                    <span className="category-list__name">Продукты</span>
-                  </li>
-                </ul>
-              </div>
-              <button className="dashboard-modal__submit-button" type="submit">Добавить</button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <CreateExpenseModal
+        opened={openedModal === 'create-expense-modal'}
+        onClose={closeModal}
+      />
+      <CreateIncomModal
+        opened={openedModal === 'create-income-modal'}
+        onClose={closeModal}
+      />
     </div>
   )
 }
