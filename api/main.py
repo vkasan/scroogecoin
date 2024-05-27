@@ -164,6 +164,7 @@ async def load_transactions(ctx: Context = Depends(auth)):
 
 @app.post("/category_create", response_model=SuccessResponse)
 async def category_create(req: CategoryCreateRequest, ctx: Context = Depends(auth)):
+    check(req.name != "default", "cannot create default category")
     c = Category()
     c.name = req.name
     c.icon = req.icon
@@ -177,12 +178,12 @@ async def category_create(req: CategoryCreateRequest, ctx: Context = Depends(aut
 async def category_delete(req: IdJson, ctx: Context = Depends(auth)):
     c = ctx.db.query(Category).get(req.id)
     check(c is not None, "category not found")
-    check(req.id != 0, "cannot delete default category")
     check(c.owner_id == ctx.user.id, "user is not owner")
+    check(c.name != "default", "cannot delete default category")
     transactions = ctx.db.query(Transaction).filter(Transaction.category_id == c.id).all()
     for t in transactions:
         logger.info("resetting transaction " + str(t.id))
-        t.category_id = 0
+        t.category_id = ctx.db.query(Category).filter(Category.name == "default" and Category.owner_id == ctx.user.id).all()[0].id
     ctx.db.delete(c)
     ctx.db.commit()
     logger.info(f"category {req.id} deleted")
@@ -196,7 +197,7 @@ async def transaction_create(req: TransactionCreateRequest, ctx: Context = Depen
         check(c.owner_id == ctx.user.id, "user is not owner")
         check(req.amount < 0, "income should not have category")
     else:
-        c = ctx.db.query(Category).get(0)
+        c = ctx.db.query(Category).filter(Category.name == "default" and Category.owner_id == ctx.user.id).all()[0]
     check(req.amount != 0, "amount is invalid")
     t = Transaction()
     t.category_id = req.category_id

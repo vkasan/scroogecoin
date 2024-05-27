@@ -20,7 +20,7 @@ class UserInfo(BaseModel):
 
 
 class CategoryJson(BaseModel):
-    id: int = 0
+    id: int
     name: str
     icon: str
     owner_id: int
@@ -30,11 +30,11 @@ class CategoryJson(BaseModel):
 
 
 class TransactionJson(BaseModel):
-    id: int = 0
+    id: int
     amount: float
     date: datetime
     description: str
-    category_id: int = 0
+    category_id: int
 
     class Config:
         from_attributes = True
@@ -58,7 +58,7 @@ class CategoryCreateRequest(BaseModel):
 
 
 class TransactionCreateRequest(BaseModel):
-    category_id: int = 0
+    category_id: int
     amount: float
     date: str
     description: str
