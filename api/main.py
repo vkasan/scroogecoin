@@ -14,7 +14,8 @@ from sqlalchemy.exc import IntegrityError
 
 from database import User, get_db, Category, Transaction
 from json_models import SuccessResponse, RegisterRequest, UserInfo, UserUpdateProfileRequest, CategoriesResponse, \
-    CategoryJson, UsersResponse, CategoryCreateRequest, IdJson, TransactionCreateRequest, TransactionsResponse
+    CategoryJson, UsersResponse, CategoryCreateRequest, IdJson, TransactionCreateRequest, TransactionsResponse, \
+    TransactionJson
 
 logger = logging.getLogger(__name__)
 
@@ -106,7 +107,6 @@ async def user_register(req: RegisterRequest, db: Session = Depends(get_db)):
         new_user.pwd_hash = pwd_hash(req.pwd)
         db.add(new_user)
         c = Category()
-        c.id = 0
         c.name = "default"
         c.icon = "default"
         new_user.categories.append(c)
@@ -158,7 +158,7 @@ async def load_transactions(ctx: Context = Depends(auth)):
     categories_id = list(map(lambda c: c.id, categories))
     transactions = ctx.db.query(Transaction).filter(Transaction.category_id.in_(categories_id)).all()
     for t in transactions:
-        resp.transactions.append(Transaction.from_orm(t))
+        resp.transactions.append(TransactionJson.from_orm(t))
     return resp
 
 
@@ -201,7 +201,7 @@ async def transaction_create(req: TransactionCreateRequest, ctx: Context = Depen
     t = Transaction()
     t.category_id = req.category_id
     t.amount = req.amount
-    t.date = req.date
+    t.date = datetime.now()
     t.description = req.description
     c.transactions.append(t)
     ctx.db.commit()

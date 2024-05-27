@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 
@@ -30,7 +32,7 @@ class CategoryJson(BaseModel):
 class TransactionJson(BaseModel):
     id: int = 0
     amount: float
-    date: str
+    date: datetime
     description: str
     category_id: int = 0
 
